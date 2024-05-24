@@ -16,14 +16,11 @@ document.getElementById('signup-form').addEventListener('submit', function(event
     if (username.length <= 3) {
         document.getElementById('username-error').textContent = 'Username must be longer than 3 characters.';
         valid = false;
-    } else if (userExists(username)) {
-        document.getElementById('username-error').textContent = 'Username already exists.';
-        valid = false;
-    }
+    } 
 
     // Validate email
-    if (emailExists(email)) {
-        document.getElementById('email-error').textContent = 'Email is already in use.';
+    if (!isValidEmail(email)) {
+        document.getElementById('email-error').textContent = 'Please enter a valid email address.';
         valid = false;
     }
 
@@ -34,7 +31,6 @@ document.getElementById('signup-form').addEventListener('submit', function(event
     }
 
     if (valid) {
-        // Proceed with form submission or further processing
         const newUser = {
             username: username,
             email: email,
@@ -69,14 +65,8 @@ document.getElementById('signup-form').addEventListener('submit', function(event
     }
 });
 
-// Mock functions to check if username or email already exists
-// In a real-world scenario, these would make requests to a server
-function userExists(username) {
-    const existingUsers = ['user1', 'user2', 'user3'];
-    return existingUsers.includes(username);
-}
-
-function emailExists(email) {
-    const existingEmails = ['user1@example.com', 'user2@example.com', 'user3@example.com'];
-    return existingEmails.includes(email);
+// Function to validate email format
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
 }
